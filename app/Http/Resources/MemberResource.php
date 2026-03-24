@@ -19,7 +19,8 @@ class MemberResource extends JsonResource
             'mother_name'   => $this->mother_name ?? null,
             'wife_name'     => $this->wife_name ?? null,
             'active'        => (bool) $this->active,
-
+            'imageUrl' => $this->getFirstMediaUrl(),
+            'image' => new MediaResource($this->getFirstMedia()),
             'branch' => $this->branch
                 ? [
                     'id'   => $this->branch->id,
@@ -33,7 +34,7 @@ class MemberResource extends JsonResource
                     'name' => $this->father->name,
                 ]
                 : null,
-
+            'dead' => (bool) $this->dead,
             // // عرض الأبناء بشكل متداخل
             // 'children' => MemberResource::collection($this->whenLoaded('children')),
         ];

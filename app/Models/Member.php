@@ -14,6 +14,12 @@ class Member extends BaseModel
         'media',
     ];
 
+    protected $casts = [
+        'dead' => 'boolean',
+        'active' => 'boolean',
+    ];
+
+
     protected $guarded = ['id'];
 
     public function father()
@@ -29,5 +35,23 @@ class Member extends BaseModel
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_attendances')
+            ->withPivot('status', 'note')
+            ->withTimestamps();
+    }
+
+    public function eventAttendances()
+    {
+        return $this->hasMany(EventAttendance::class);
+    }
+
+    public function attendingEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_attendances')
+            ->wherePivot('status', 'attending');
     }
 }

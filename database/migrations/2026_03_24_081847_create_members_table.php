@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('mother_name')->nullable();
             $table->string('wife_name')->nullable();
             $table->string('application_number')->unique()->nullable();
+            $table->boolean('dead')->default(0);
             $table->boolean('active')->default(0);
             $table->softDeletes();
             $table->timestamps();

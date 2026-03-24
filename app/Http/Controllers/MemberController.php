@@ -124,7 +124,7 @@ class MemberController extends BaseController
                         ->get();
         return MemberTreeResource::collection($roots);
     }
-    
+
     public function login(Request $request)
     {
         $request->validate([
@@ -160,4 +160,45 @@ class MemberController extends BaseController
             'data'    => new MemberResource($member),
         ]);
     }
+
+
+    public function checkAuth(Request $request)
+    {
+        try {
+            $member = auth()->user();
+
+            if (!$member) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            $member->load(['father','children','branch','events','eventAttendances','attendingEvents']);
+
+            return response()->json(['data' => new MemberResource($member)]);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ]);
+    }
+
+    public function deleteAccount()
+    {
+        $user = auth()->user();
+        $user->tokens()->delete();
+        $user->delete();
+
+        return response()->json([
+            'message' => 'Account deleted'
+        ]);
+    }
+
 }

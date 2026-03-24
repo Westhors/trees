@@ -2,8 +2,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Models\Branch;
 use Illuminate\Http\Request;
@@ -121,4 +123,47 @@ Route::middleware([])->group(function () {
 });
 Route::post('member-public', [MemberController::class, 'store']);
 //////////////////////////////////////// member ////////////////////////////////
+
+
+
+
+
+//////////////////////////////////////// event ////////////////////////////////
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/event/index', [EventController::class, 'index']);
+    Route::post('event/restore', [EventController::class, 'restore']);
+    Route::delete('event/delete', [EventController::class, 'destroy']);
+    Route::delete('event/force-delete', [EventController::class, 'forceDelete']);
+    Route::put('/event/{id}/{column}', [EventController::class, 'toggle']);
+    Route::apiResource('event', EventController::class);
+
+    Route::get('my-events', [EventController::class, 'myEvents']);
+
+    Route::post('event-attendance', [EventController::class, 'changeAttendance']);
+
+    Route::get('events/{event}/attendees', [EventController::class, 'getAttendees']);
+});
+
+//////////////////////////////////////// Event ////////////////////////////////
+
+
+
+
+
+
+
+//////////////////////////////////////// news ////////////////////////////////
+Route::middleware([])->group(function () {
+    Route::post('/news/index', [NewsController::class, 'index']);
+    Route::post('news/restore', [NewsController::class, 'restore']);
+    Route::delete('news/delete', [NewsController::class, 'destroy']);
+    Route::delete('news/force-delete', [NewsController::class, 'forceDelete']);
+    Route::put('/news/{id}/{column}', [NewsController::class, 'toggle']);
+    Route::apiResource('news', NewsController::class);
+});
+Route::post('news-public', [NewsController::class, 'store']);
+//////////////////////////////////////// news ////////////////////////////////
+
 
