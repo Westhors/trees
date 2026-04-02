@@ -40,6 +40,7 @@ class MemberRequest extends FormRequest
                 Rule::unique('members', 'national_id')->ignore($this->member?->id),
             ],
             'date_of_birth' => 'nullable|date',
+            'personal_relationships' => 'nullable|array',
             'city' => 'nullable|string',
             'password' => $this->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
         ];

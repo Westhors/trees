@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('city')->nullable();
+            $table->json('personal_relationships')->nullable();
             $table->foreignId('branch_id')
                 ->nullable()
                 ->constrained();

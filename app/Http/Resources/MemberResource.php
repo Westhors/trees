@@ -19,6 +19,7 @@ class MemberResource extends JsonResource
             'mother_name'   => $this->mother_name ?? null,
             'wife_name'     => $this->wife_name ?? null,
             'active'        => (bool) $this->active,
+            'personal_relationships' => $this->personal_relationships ?? null,
             'imageUrl' => $this->getFirstMediaUrl(),
             'image' => new MediaResource($this->getFirstMedia()),
             'branch' => $this->branch
