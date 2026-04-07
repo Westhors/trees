@@ -13,6 +13,11 @@ class BaseController extends Controller
     {
         $item = $this->crudRepository->find($id);
 
+        if ($item->dead == 0)
+        {
+            $item->date_of_death = now();
+        }
+
         if ($item) {
             $item->$column = !$item->$column;
             $item->save();

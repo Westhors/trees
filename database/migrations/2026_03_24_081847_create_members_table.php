@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('national_id')->nullable();
             $table->string('phone')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->date('date_of_death')->nullable();
             $table->string('city')->nullable();
             $table->json('personal_relationships')->nullable();
             $table->foreignId('branch_id')

@@ -15,6 +15,7 @@ class MemberResource extends JsonResource
             'phone'         => $this->phone ?? null,
             'national_id'   => $this->national_id ?? null,
             'date_of_birth' => $this->date_of_birth ?? null,
+            'date_of_death' => $this->date_of_death ?? null,
             'city'          => $this->city ?? null,
             'mother_name'   => $this->mother_name ?? null,
             'wife_name'     => $this->wife_name ?? null,
