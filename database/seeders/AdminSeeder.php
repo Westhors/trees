@@ -18,8 +18,9 @@ class AdminSeeder extends Seeder
         DB::table('admins')->insert(
             [
                 [
-                    'name' => 'Adam Smith',
-                    'email' => 'adam@wsa-network.com',
+                    'name' => 'zaid alshaahir',
+                    'phone' => '123456789',
+                    'email' => 'zaid@alshaahir.com',
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                     'super_admin' => true,
                     'created_at' => now(),
@@ -28,6 +29,7 @@ class AdminSeeder extends Seeder
                 ],
                 [
                     'name' => 'Fred Tripoli',
+                    'phone' => '987654321',
                     'email' => 'fred@wsa-network.com',
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                     'super_admin' => true,
@@ -37,6 +39,7 @@ class AdminSeeder extends Seeder
                 ],
                 [
                     'name' => 'Remon Sarofeem',
+                    'phone' => '1265165161',
                     'email' => 'remon@wsa-network.com',
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                     'super_admin' => false,
@@ -46,6 +49,7 @@ class AdminSeeder extends Seeder
                 ],
                 [
                     'name' => 'Summer',
+                    'phone' => '1265981161',
                     'email' => 'summer@wsa-network.com',
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                     'super_admin' => false,
@@ -55,6 +59,7 @@ class AdminSeeder extends Seeder
                 ],
                 [
                     'name' => 'Emily',
+                    'phone' => '230651890320',
                     'email' => 'emily@wsa-network.com',
                     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                     'super_admin' => false,

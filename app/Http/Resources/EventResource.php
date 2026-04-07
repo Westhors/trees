@@ -27,7 +27,8 @@ class EventResource extends JsonResource
             'type' => $this->type,
             'active' => (bool) $this->active,
             'created_at' => $this->created_at,
-
+            'imageUrl' => $this->getFirstMediaUrl(),
+            'image' => new MediaResource($this->getFirstMedia()),
             'my_attendance' => $myAttendance,
 
             'statistics' => [

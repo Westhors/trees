@@ -58,7 +58,10 @@ class EventController extends BaseController
     public function store(EventRequest $request)
     {
         try {
-            $this->crudRepository->create($request->validated());
+           $event = $this->crudRepository->create($request->validated());
+            if (request('image') !== null) {
+                $this->crudRepository->AddMediaCollection('image', $event);
+            }
             return JsonResponse::respondSuccess(trans(JsonResponse::MSG_ADDED_SUCCESSFULLY));
         } catch (Exception $e) {
             return JsonResponse::respondError($e->getMessage());
@@ -70,8 +73,11 @@ class EventController extends BaseController
     public function update(EventRequest $request, Event $event)
     {
         try {
-            $this->crudRepository->update($request->validated(), $event->id);
-
+           $event = $this->crudRepository->update($request->validated(), $event->id);
+            if ($request->filled('image')) {
+                $event = Event::find($event->id);
+                $this->crudRepository->AddMediaCollection('image', $event);
+            }
             return JsonResponse::respondSuccess(
                 trans(JsonResponse::MSG_UPDATED_SUCCESSFULLY),
                 new EventResource($event->fresh(['attendances.member']))

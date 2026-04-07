@@ -2,8 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasMedia;
+
 class Event extends BaseModel
 {
+    use HasMedia;
+
+    protected $with = [
+        'media',
+    ];
     protected $guarded = ['id'];
 
       protected $casts = [

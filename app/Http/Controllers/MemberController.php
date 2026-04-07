@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\JsonResponse;
 use App\Http\Requests\MemberRequest;
+use App\Http\Resources\AdminResource;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\MemberTreeResource;
 use App\Interfaces\MemberRepositoryInterface;
+use App\Models\Admin;
 use App\Models\Member;
 use Exception;
 use Illuminate\Http\Request;
@@ -132,18 +134,25 @@ class MemberController extends BaseController
             'password' => 'required',
         ]);
 
+        // 🔹 أول حاجة: دور على Admin
+        $admin = Admin::where('phone', $request->phone)->first();
+
+        if ($admin && Hash::check($request->password, $admin->password)) {
+
+            $token = $admin->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Login success',
+                'type'    => 'admin',
+                'token'   => $token,
+                'data'    => new AdminResource($admin),
+            ]);
+        }
+
+        // 🔹 لو مش Admin، دور على Member
         $member = Member::where('phone', $request->phone)->first();
 
-        if (!$member) {
-            return response()->json(['message' => 'Wrong credentials'], 401);
-        }
-
-        if (Hash::needsRehash($member->password)) {
-            $member->password = Hash::make($request->password);
-            $member->save();
-        }
-
-        if (!Hash::check($request->password, $member->password)) {
+        if (!$member || !Hash::check($request->password, $member->password)) {
             return response()->json(['message' => 'Wrong credentials'], 401);
         }
 
