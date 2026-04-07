@@ -19,6 +19,8 @@ class MemberTreeResource extends JsonResource
             'mother_name' => $this->mother_name,
             'wife_name' => $this->wife_name,
             'active' => (bool) $this->active,
+            'imageUrl' => $this->getFirstMediaUrl(),
+            'image' => new MediaResource($this->getFirstMedia()),
             'branch' => $this->branch ? [
                 'id' => $this->branch->id,
                 'name' => $this->branch->name
