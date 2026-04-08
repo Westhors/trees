@@ -122,6 +122,7 @@ Route::middleware([])->group(function () {
     Route::apiResource('member', MemberController::class);
 });
 Route::post('member-public', [MemberController::class, 'store']);
+Route::post('add-member-public', [MemberController::class, 'addMember']);
 //////////////////////////////////////// member ////////////////////////////////
 
 

@@ -210,4 +210,65 @@ class MemberController extends BaseController
         ]);
     }
 
+
+    public function addMember(MemberRequest $request)
+    {
+        try {
+            $data = $request->validated();
+
+            $user = auth()->user();
+
+            // مهم جداً: هل اليوزر نفسه member؟
+            // لو عندك relation
+            $currentMember = $user->member ?? $user;
+
+            // دايماً branch من اليوزر
+            $data['branch_id'] = $currentMember->branch_id;
+
+            // تشفير الباسورد
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
+
+            // =========================
+            // حالة إضافة ابن
+            // =========================
+            if ($data['type'] === 'son') {
+
+                $data['father_id'] = $currentMember->id;
+
+                $member = $this->crudRepository->create($data);
+            }
+
+            // =========================
+            // حالة إضافة أب
+            // =========================
+            elseif ($data['type'] === 'father') {
+
+                // إنشاء الأب
+                $member = $this->crudRepository->create($data);
+
+                // ربط المستخدم الحالي بالأب الجديد
+                $currentMember->update([
+                    'father_id' => $member->id
+                ]);
+            }
+
+            // application number
+            $member->update([
+                'application_number' => '#' . str_pad($member->id, 6, '0', STR_PAD_LEFT)
+            ]);
+
+            // رفع صورة
+            if ($request->hasFile('image')) {
+                $this->crudRepository->AddMediaCollection('image', $member);
+            }
+
+            return JsonResponse::respondSuccess('تم إضافة العضو بنجاح');
+
+        } catch (\Exception $e) {
+            return JsonResponse::respondError($e->getMessage());
+        }
+    }
+
 }
