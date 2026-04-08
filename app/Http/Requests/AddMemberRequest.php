@@ -47,6 +47,7 @@ class AddMemberRequest extends FormRequest
             ],
 
             'date_of_birth' => 'nullable|date',
+            'date_of_death' => 'nullable|date',
 
             'dead' => 'nullable|boolean',
 
