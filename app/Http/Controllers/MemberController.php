@@ -67,20 +67,16 @@ class MemberController extends BaseController
         try {
             $data = $request->validated();
 
-            // ✅ اعمل hash الأول
             if (!empty($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
 
-            // ✅ بعد كده خزّن
             $member = $this->crudRepository->create($data);
 
-            // application number
             $member->update([
                 'application_number' => '#' . str_pad($member->id, 6, '0', STR_PAD_LEFT)
             ]);
 
-            // رفع صورة
             if ($request->hasFile('image')) {
                 $this->crudRepository->AddMediaCollection('image', $member);
             }
@@ -221,7 +217,7 @@ class MemberController extends BaseController
     }
 
 
-    public function addMember(MemberRequest $request)
+    public function addMember(AddMemberRequest $request)
     {
         try {
             $data = $request->validated();
