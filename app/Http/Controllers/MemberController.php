@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\JsonResponse;
+use App\Http\Requests\AddMemberRequest;
 use App\Http\Requests\MemberRequest;
 use App\Http\Resources\AdminResource;
 use App\Http\Resources\MemberResource;
