@@ -62,25 +62,35 @@ class MemberController extends BaseController
     }
 
 
-    public function applicationForm(MemberRequest $request)
+   public function applicationForm(MemberRequest $request)
     {
         try {
             $data = $request->validated();
-            $member = $this->crudRepository->create($data);
 
+            // ✅ اعمل hash الأول
             if (!empty($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
-            $data['application_number'] = '#' . str_pad($member->id, 6, '0', STR_PAD_LEFT);
-            if (request('image') !== null) {
+
+            // ✅ بعد كده خزّن
+            $member = $this->crudRepository->create($data);
+
+            // application number
+            $member->update([
+                'application_number' => '#' . str_pad($member->id, 6, '0', STR_PAD_LEFT)
+            ]);
+
+            // رفع صورة
+            if ($request->hasFile('image')) {
                 $this->crudRepository->AddMediaCollection('image', $member);
             }
+
             return JsonResponse::respondSuccess(trans(JsonResponse::MSG_ADDED_SUCCESSFULLY));
+
         } catch (Exception $e) {
             return JsonResponse::respondError($e->getMessage());
         }
     }
-
 
 
 
