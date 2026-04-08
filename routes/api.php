@@ -122,7 +122,6 @@ Route::middleware([])->group(function () {
     Route::apiResource('member', MemberController::class);
 });
 Route::post('member-public', [MemberController::class, 'store']);
-Route::post('add-member-public', [MemberController::class, 'addMember']);
 //////////////////////////////////////// member ////////////////////////////////
 
 
@@ -132,6 +131,7 @@ Route::post('add-member-public', [MemberController::class, 'addMember']);
 //////////////////////////////////////// event ////////////////////////////////
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('add-member-public', [MemberController::class, 'addMember']);
 
     Route::post('/event/index', [EventController::class, 'index']);
     Route::post('event/restore', [EventController::class, 'restore']);
