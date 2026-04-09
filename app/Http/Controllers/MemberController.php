@@ -245,6 +245,9 @@ class MemberController extends BaseController
                 $data['father_id'] = $currentMember->id;
 
                 $member = $this->crudRepository->create($data);
+                if (request('image') !== null) {
+                    $this->crudRepository->AddMediaCollection('image', $member);
+                }
             }
 
             // =========================
@@ -254,7 +257,9 @@ class MemberController extends BaseController
 
                 // إنشاء الأب
                 $member = $this->crudRepository->create($data);
-
+                if (request('image') !== null) {
+                    $this->crudRepository->AddMediaCollection('image', $member);
+                }
                 // ربط المستخدم الحالي بالأب الجديد
                 $currentMember->update([
                     'father_id' => $member->id
