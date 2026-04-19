@@ -88,9 +88,9 @@ class MemberController extends BaseController
             return JsonResponse::respondError($e->getMessage());
         }
     }
-    
 
-    public function update(MemberRequest $request, Member $member): \Illuminate\Http\JsonResponse
+
+    public function updateMember(MemberRequest $request, Member $member): \Illuminate\Http\JsonResponse
     {
         try {
             $data = $request->validated();
