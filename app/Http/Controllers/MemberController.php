@@ -181,21 +181,49 @@ class MemberController extends BaseController
     public function checkAuth(Request $request)
     {
         try {
-            $member = auth()->user();
+            $user = auth()->user();
 
-            if (!$member) {
-                return response()->json(['message' => 'Unauthorized'], 401);
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
             }
 
-            $member->load(['father','children','branch','events','eventAttendances','attendingEvents']);
+            // لو Admin
+            if ($user instanceof \App\Models\Admin) {
+                return response()->json([
+                    'type' => 'admin',
+                    'data' => new AdminResource($user)
+                ]);
+            }
 
-            return response()->json(['data' => new MemberResource($member)]);
+            // لو Member
+            if ($user instanceof \App\Models\Member) {
+                $user->load([
+                    'father',
+                    'children',
+                    'branch',
+                    'events',
+                    'eventAttendances',
+                    'attendingEvents'
+                ]);
+
+                return response()->json([
+                    'type' => 'member',
+                    'data' => new MemberResource($user)
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Unknown user type'
+            ], 400);
 
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
-
 
     public function logout(Request $request)
     {
