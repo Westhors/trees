@@ -181,18 +181,29 @@ class MemberController extends BaseController
     public function checkAuth(Request $request)
     {
         try {
-            $member = auth()->user();
+            $member = auth('member')->user();
 
             if (!$member) {
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
 
-            $member->load(['father','children','branch','events','eventAttendances','attendingEvents']);
+            $member->load([
+                'father',
+                'children',
+                'branch',
+                'events',
+                'eventAttendances',
+                'attendingEvents'
+            ]);
 
-            return response()->json(['data' => new MemberResource($member)]);
+            return response()->json([
+                'data' => new MemberResource($member)
+            ]);
 
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
