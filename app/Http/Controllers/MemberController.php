@@ -274,6 +274,7 @@ class MemberController extends BaseController
 
             // دايماً branch من اليوزر
             $data['branch_id'] = $currentMember->branch_id;
+            $data['created_by_member_id'] = $currentMember->id;
 
             // تشفير الباسورد
             if (!empty($data['password'])) {
@@ -308,6 +309,8 @@ class MemberController extends BaseController
                     'father_id' => $member->id
                 ]);
             }
+
+
 
             // application number
             $member->update([

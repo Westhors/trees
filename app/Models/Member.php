@@ -36,6 +36,16 @@ class Member extends BaseModel
     {
         return $this->belongsTo(Branch::class);
     }
+    
+    public function createdBy()
+    {
+        return $this->belongsTo(Member::class, 'created_by_member_id');
+    }
+
+    public function createdMembers()
+    {
+        return $this->hasMany(Member::class, 'created_by_member_id');
+    }
 
     public function events()
     {
