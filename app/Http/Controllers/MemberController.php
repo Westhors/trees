@@ -88,19 +88,34 @@ class MemberController extends BaseController
             return JsonResponse::respondError($e->getMessage());
         }
     }
-
-
+    
 
     public function update(MemberRequest $request, Member $member): \Illuminate\Http\JsonResponse
     {
         try {
-            $this->crudRepository->update($request->validated(), $member->id);
-            if (request('image') !== null) {
-                $member = Member::find($member->id);
-                $image = $this->crudRepository->AddMediaCollection('image', $member);
+            $data = $request->validated();
+
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']); // يمنع تحديثها بقيمة فارغة
             }
-            activity()->performedOn($member)->withProperties(['attributes' => $member])->log('update');
-            return JsonResponse::respondSuccess(trans(JsonResponse::MSG_UPDATED_SUCCESSFULLY));
+
+            $this->crudRepository->update($data, $member->id);
+
+            if ($request->hasFile('image')) {
+                $member = Member::find($member->id);
+                $this->crudRepository->AddMediaCollection('image', $member);
+            }
+            activity()
+                ->performedOn($member)
+                ->withProperties(['attributes' => $member])
+                ->log('update');
+
+            return JsonResponse::respondSuccess(
+                trans(JsonResponse::MSG_UPDATED_SUCCESSFULLY)
+            );
+
         } catch (Exception $e) {
             return JsonResponse::respondError($e->getMessage());
         }
