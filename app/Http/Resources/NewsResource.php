@@ -13,6 +13,7 @@ class NewsResource extends JsonResource
             'title'         => $this->title ?? null,
             'summary'       => $this->summary ?? null,
             'content'       => $this->content ?? null,
+            'active'        => (bool) $this->active,
             'gallery' => $this->getMediaResource('gallery') ?: null,
             'createdAt' => $this->created_at ? $this->created_at->format('F d, Y - h:i A') : null,
             'updatedAt' => $this->updated_at ? $this->updated_at->format('F d, Y - h:i A') : null,

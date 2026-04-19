@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
             $table->string('location')->nullable();
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->timestamps();
             $table->softDeletes();
        });
