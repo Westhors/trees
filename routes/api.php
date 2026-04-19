@@ -127,7 +127,8 @@ Route::post('member-public', [MemberController::class, 'store']);
 
 
 
-
+Route::middleware('auth:sanctum')->get('/my-created-members',[MemberController::class, 'myCreatedMembers']
+);
 
 //////////////////////////////////////// event ////////////////////////////////
 

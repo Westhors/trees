@@ -329,4 +329,26 @@ class MemberController extends BaseController
         }
     }
 
+    public function myCreatedMembers()
+    {
+        try {
+            $user = auth()->user();
+            $currentMember = $user->member ?? $user;
+
+            $members = Member::where('created_by_member_id', $currentMember->id)
+                ->with(['father', 'branch'])
+                ->latest()
+                ->get();
+
+            return response()->json([
+                'data' => $members
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
