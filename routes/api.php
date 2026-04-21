@@ -110,8 +110,8 @@ Route::post('login', [MemberController::class, 'login']);
 Route::post('logout', [MemberController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('check-auth', [MemberController::class, 'checkAuth'])->middleware('auth:sanctum');
 Route::post('update-member', [MemberController::class, 'updateMember'])->middleware('auth:sanctum');
-Route::get('user/delete-account', [MemberController::class, 'deleteAccount'])->middleware('auth:sanctum');
-
+Route::delete('user/delete-account', [MemberController::class, 'deleteAccount'])
+    ->middleware('auth:sanctum');
 
 Route::get('members/tree', [MemberController::class,'tree']);
 Route::middleware([])->group(function () {
